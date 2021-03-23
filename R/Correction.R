@@ -6,9 +6,9 @@
 #' @export
 #'
 GetCorrectionMatrix <- function(x, batch = 1) {
-  tmp <- GetDebugData(x)[[batch]][["Correction Data"]][["Correction Matrix"]]
-  rownames(tmp) <- VariableFeatures(x)
-  colnames(tmp) <- seq_len(ncol(tmp))
+  tmp <- GetDebugData(x)[[batch]][["debug"]][["matrix"]][["corGene"]]
+  rownames(tmp) <- GetDebugData(x)[[batch]][["debug"]][["matrix"]][["features"]]
+  colnames(tmp) <- names(GetDebugData(x)[[batch]][["debug"]][["membership"]])
   tmp
 }
 
