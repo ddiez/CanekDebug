@@ -23,3 +23,7 @@ Imports:
     ggrepel,
     ComplexHeatmap,
     stats
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
