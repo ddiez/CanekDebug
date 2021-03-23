@@ -1,7 +1,7 @@
 Package: CanekDebug
 Type: Package
 Title: Functions to Evaluate Canek Integration
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "Diego",
            family = "Diez",
@@ -17,6 +17,7 @@ RoxygenNote: 7.1.1
 Imports: 
     Canek,
     Seurat,
+    tibble,
     ggplot2,
     dplyr,
     tidyr,
