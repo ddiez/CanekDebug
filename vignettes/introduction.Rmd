@@ -29,6 +29,13 @@ x <- RunCanek(SimBatches$batches, debug = TRUE)
 GetDebugInfo(x)
 ```
 
+
+```{r}
+x$`B2/B1`$debug$info
+```
+
+
+
 ```{r}
 plotRunningTime(x)
 ```
@@ -38,13 +45,16 @@ plotRunningTime(x)
 plotTopGenes(x)
 ```
 
+
 ```{r}
 CheckUncorrectedMemberships(x)
 ```
 
+
 ```{r}
 plotCorrectionHeatmap(x)
 ```
+
 
 ```{r}
 plotCorrectionHist(x)
