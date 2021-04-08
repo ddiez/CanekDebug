@@ -73,10 +73,11 @@ plotNumberOfCorrectedGenes <- function(x) {
     geom_col()
 }
 
-#' plotBatchMembeship
+#' plotBatchMembership
 #'
 #' @param x CanekDebug object.
 #' @param batch batch correction number/name.
+#' @param reduction reduction to plot
 #' @param add.ref whether to plot reference cells.
 #' @param plot.membership whether to color by memberships.
 #' @param plot.mnn whether to add MNN pairs.
@@ -84,9 +85,14 @@ plotNumberOfCorrectedGenes <- function(x) {
 #'
 #' @export
 #'
-plotBatchMembeship <- function(x, batch = 1, add.ref = TRUE, plot.membership = TRUE, plot.mnn = FALSE, ...) {
+plotBatchMembership <- function(x, batch = 1, reduction = "umapraw", add.ref = TRUE, plot.membership = TRUE, plot.mnn = FALSE, ...) {
   tmp <- GetDebugData(x)
   ref <- GetRefBatchName(x)
+
+  if(!(reduction %in% names(Canek@reductions))){
+    stop("The specified reduction does not exist")
+  }
+
   if (is.numeric(batch))
     batch <- GetBatchNames(x)[batch]
   batchcells <- colnames(tmp[[batch]][["Query Batch (B2)"]])
@@ -109,11 +115,11 @@ plotBatchMembeship <- function(x, batch = 1, add.ref = TRUE, plot.membership = T
     x$membership <- factor(x$membership, levels = c("Reference", batch))
   }
 
-  p <- DimPlot(x, group.by = "membership", reduction = "umapraw", ...)
+  p <- DimPlot(x, group.by = "membership", reduction = reduction, ...)
 
   if (plot.mnn) {
     mnn <- GetMNNPairsData(x, batch)
-    emb <- Embeddings(x, "umapraw")
+    emb <- Embeddings(x, reduction)
     # ref_mnn <- refcells[mnn[, "refBatch-Cells-Index"]]
     # query_mnn <- batchcells[mnn[, "queBatch-Cells-Index"]]
 
