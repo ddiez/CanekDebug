@@ -89,8 +89,8 @@ plotBatchMembership <- function(x, batch = 1, reduction = "umapraw", add.ref = T
   tmp <- GetDebugData(x)
   ref <- GetRefBatchName(x)
 
-  if(!(reduction %in% names(Canek@reductions))){
-    stop("The specified reduction does not exist")
+  if(!(reduction %in% Reductions(x))) {
+    stop("The specified reduction does not exist.")
   }
 
   if (is.numeric(batch))
