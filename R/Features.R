@@ -11,7 +11,7 @@ SummarizeHVF <- function(x) {
     tibble(dataset = n, feature = VariableFeatures(x[[n]]))
   }) %>% bind_rows()
   total_features <- length(unique(x$feature))
-  x %>% gather(dataset, feature) %>% count(feature, sort = TRUE, name = "n_datasets") %>% count(n_datasets, name = "n_features") %>% mutate(total_datasets = total_datasets, percentage_datasets = n_datasets / total_datasets, total_features = total_features, percentage_features = 100 * n_features / total_features, cumsum_features = rev(cumsum(rev(n_features))), cumsum_percentage_features = rev(cumsum(rev(percentage_features)))) %>% select(n_datasets, total_datasets, percentage_datasets, n_features, cumsum_features, total_features, percentage_features, cumsum_percentage_features)
+  x %>% gather("dataset", "feature") %>% count(.data[["feature"]], sort = TRUE, name = "n_datasets") %>% count(.data[["n_datasets"]], name = "n_features") %>% mutate(total_datasets = total_datasets, percentage_datasets = .data[["n_datasets"]] / .data[["total_datasets"]], total_features = total_features, percentage_features = 100 * .data[["n_features"]] / .data[["total_features"]], cumsum_features = rev(cumsum(rev(.data[["n_features"]]))), cumsum_percentage_features = rev(cumsum(rev(.data[["percentage_features"]])))) %>% select("n_datasets", "total_datasets", "percentage_datasets", "n_features", "cumsum_features", "total_features", "percentage_features", "cumsum_percentage_features")
 }
 
 
@@ -26,8 +26,8 @@ TabulateHVF <- function(x) {
   lapply(names(x), function(n) {
     tibble(dataset = n, feature = VariableFeatures(x[[n]]), n = 1)
   }) %>% bind_rows() %>%
-    group_by(feature) %>% mutate(total = sum(n)) %>%
-    spread(dataset, n, fill = 0)
+    group_by(.data[["feature"]]) %>% mutate(total = sum(.data[["n"]])) %>%
+    spread(.data[["dataset"]], .data[["n"]], fill = 0)
 }
 
 #' IntersectFeatures

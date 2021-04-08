@@ -26,6 +26,6 @@ GetDebugInfo <- function(x) {
   tmp$memberships <- sapply(x, function(xx) xx[["Correction Data"]][["Membership Data"]][["Cluster Membership"]])
   tmp$reference <- unique(sub("/.*", "", tmp$integration))
   tmp$batch <- factor(basename(tmp$integration), levels = basename(tmp$integration))
-  tmp <- tmp %>% select(integration, reference, batch, everything())
+  tmp <- tmp %>% select(.data[["integration"]], .data[["reference"]], .data[["batch"]], everything())
   tmp
 }

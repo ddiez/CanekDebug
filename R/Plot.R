@@ -7,7 +7,7 @@
 plotRunningTime <- function(x) {
   d <- GetDebugInfo(x)
   tt <- GetTotalTime(x)
-  ggplot(d, aes(batch, time)) +
+  ggplot(d, aes(.data[["batch"]], .data[["time"]])) +
     geom_col() +
     labs(y = paste0("time (", d$units[1], ")"), title = paste0("reference: ", d$reference[1], ", total time: ", round(tt, digits = 2), " (", units(tt), ")"))
 }
@@ -20,10 +20,10 @@ plotRunningTime <- function(x) {
 #' @export
 #'
 plotTopGenes <- function(x, batch = NULL) {
-  d <- SummarizeTopGenes(x, batch = batch) %>% mutate(index = seq_along(correction))
-  ggplot(d, aes(index, correction)) +
+  d <- SummarizeTopGenes(x, batch = batch) %>% mutate(index = seq_along(.data[["correction"]]))
+  ggplot(d, aes(.data[["index"]], .data[["correction"]])) +
     geom_point() +
-    ggrepel::geom_text_repel(aes(label = gene), data = d %>% top_n(10, correction), min.segment.length = 0, color = "red")
+    ggrepel::geom_text_repel(aes(label = .data[["gene"]]), data = d %>% arrange(desc(.data[["correction"]])) %>% head(10), min.segment.length = 0, color = "red")
 }
 
 #' plotCorrectionHist
@@ -36,8 +36,8 @@ plotTopGenes <- function(x, batch = NULL) {
 #'
 plotCorrectionHist <- function(x, batch = 1, by.membership = TRUE) {
   tmp <- GetCorrectionMatrix(x, batch) %>% as_tibble()
-  p <- tmp %>% gather(membership, correction) %>%
-    ggplot(aes(correction)) +
+  p <- tmp %>% gather("membership", "correction") %>%
+    ggplot(aes(.data[["correction"]])) +
     geom_histogram(binwidth = .1)
   if (by.membership)
     p <- p + facet_wrap(~membership)
@@ -69,7 +69,7 @@ plotNumberOfCorrectedGenes <- function(x) {
     data.frame(batch = basename(batch), genes = sum(rowSums(tmp) != 0))
   }) %>% bind_rows()
   d$batch <- factor(d$batch, levels = basename(batches))
-  ggplot(d, aes(batch, genes)) +
+  ggplot(d, aes(.data[["batch"]], .data[["genes"]])) +
     geom_col()
 }
 
@@ -131,9 +131,9 @@ plotBatchMembership <- function(x, batch = 1, reduction = "umapraw", add.ref = T
 
     if (plot.membership) {
       d$membership <- factor(membership[query_mnn, "membership"])
-      p <- p + geom_segment(aes(x, y, xend = xend, yend = yend, color = membership), data = d, size = .1, alpha = .4)
+      p <- p + geom_segment(aes(.data[["x"]], .data[["y"]], xend = .data[["xend"]], yend = .data[["yend"]], color =.data[["membership"]]), data = d, size = .1, alpha = .4)
     } else {
-      p <- p + geom_segment(aes(x, y, xend = xend, yend = yend), data = d, size = .1, color = "grey", alpha = .4)
+      p <- p + geom_segment(aes(.data[["x"]], .data[["y"]], xend = .data[["xend"]], yend = .data[["yend"]]), data = d, size = .1, color = "grey", alpha = .4)
     }
   }
   p + labs(title = batch)

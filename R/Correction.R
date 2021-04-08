@@ -25,5 +25,5 @@ SummarizeTopGenes <- function(x, batch = NULL) {
   if (!is.null(batch)) tmp <- tmp[batch]
   lapply(names(tmp), function(n) {
     enframe(rowSums(GetCorrectionMatrix(x, n) ^ 2), name = "gene", value = "correction") %>% add_column(batch = basename(n))
-  }) %>% bind_rows() %>% group_by(gene) %>% summarize(correction = sum(correction)) %>% arrange(desc(correction))
+  }) %>% bind_rows() %>% group_by(.data[["gene"]]) %>% summarize(correction = sum(.data[["correction"]])) %>% arrange(desc(.data[["correction"]]))
 }
