@@ -73,7 +73,7 @@ plotNumberOfCorrectedGenes <- function(x) {
     geom_col()
 }
 
-#' plotBatchMembeship
+#' plotBatchMembership
 #'
 #' @param x CanekDebug object.
 #' @param batch batch correction number/name.
@@ -84,7 +84,7 @@ plotNumberOfCorrectedGenes <- function(x) {
 #'
 #' @export
 #'
-plotBatchMembeship <- function(x, batch = 1, add.ref = TRUE, plot.membership = TRUE, plot.mnn = FALSE, ...) {
+plotBatchMembership <- function(x, batch = 1, reduction = "umapraw", add.ref = TRUE, plot.membership = TRUE, plot.mnn = FALSE, ...) {
   tmp <- GetDebugData(x)
   ref <- GetRefBatchName(x)
   if (is.numeric(batch))
